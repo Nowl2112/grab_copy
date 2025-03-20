@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'cart.dart';
 
+
 class RestaurantPage extends StatefulWidget {
   final String restaurantId;
   RestaurantPage({required this.restaurantId});
@@ -117,7 +118,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage(restaurantName: name)));
                   },
                   child: Container(
                     height: 50,

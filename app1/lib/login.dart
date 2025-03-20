@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Container(
           height: 400,
           width: 400,
-          decoration: BoxDecoration(
+          decoration: BoxDecoration(  
             color: Color(0xffffffff),
             borderRadius: BorderRadius.circular(20),
           ),

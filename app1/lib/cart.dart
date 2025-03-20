@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatefulWidget {
+  final String restaurantName;
+    CartPage({required this.restaurantName});
+
   @override
   _CartPageState createState() => _CartPageState();
 }
@@ -40,7 +43,7 @@ class _CartPageState extends State<CartPage> {
 Future<void> _checkout() async {
   User? user = FirebaseAuth.instance.currentUser;
   if (user == null) return;
-
+  
   var userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
   String username = userDoc.data()?['name'] ?? 'Unknown';
 
@@ -63,6 +66,7 @@ Future<void> _checkout() async {
     'username': username,
     'driverId': null,
     'driverName': null,
+    'restaurant':widget.restaurantName,
     'totalPrice': totalPrice,
     'createdAt': FieldValue.serverTimestamp(),
   };
