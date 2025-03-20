@@ -1,3 +1,4 @@
+import 'package:app1/driver_order_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +22,14 @@ class _DriverHomePageState extends State<DriverHomePage> {
       'driverId': driver!.uid,
       'driverName': driverName,
     });
-
-    // Update notification
-    var notifSnapshot = await FirebaseFirestore.instance
+        var notifSnapshot = await FirebaseFirestore.instance
         .collection('notifications')
-        .where('orderId', isEqualTo: orderId)
-        .where('driverId', isEqualTo: driver!.uid)
+        .where('orderId', isEqualTo: orderId) // Corrected Query
         .get();
+
+    for (var doc in notifSnapshot.docs) {
+      await doc.reference.update({'accepted': false});
+    }
 
     for (var doc in notifSnapshot.docs) {
       await doc.reference.update({'accepted': true});
@@ -36,6 +38,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Order $orderId accepted!")),
     );
+    Navigator.push(context,MaterialPageRoute(builder: (context)=>DriverOrderPage(orderId: orderId),),);
   }
 
   @override
