@@ -13,7 +13,14 @@ class DriverOrderPage extends StatelessWidget {
         'driverId': null,
         'driverName': null,
       });
+        var notifSnapshot = await FirebaseFirestore.instance
+        .collection('notifications')
+        .where('orderId', isEqualTo: orderId) // Corrected Query
+        .get();
 
+    for (var doc in notifSnapshot.docs) {
+      await doc.reference.update({'accepted': false});
+    }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Order $orderId cancelled!")),
       );
